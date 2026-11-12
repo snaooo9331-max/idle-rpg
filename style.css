@@ -1,0 +1,31 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #1e1e2e;
+  color: #ffffff;
+}
+
+.enemy {
+  background-color: #2e2e44;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 300px;
+  border-radius: 12px;
+}
+
+button {
+  font-size: 18px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f5a623;
+  color: #1e1e2e;
+  cursor: pointer;
+}
+
+.danger {
+  background-color: #444455;
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: 40px;
+}

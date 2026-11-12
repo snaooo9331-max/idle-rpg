@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>放置RPG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>放置RPG</h1>
+  <p id="offline-message"></p>
+
+  <p>ステージ: <span id="stage">1</span></p>
+  <p>ゴールド: <span id="gold">0</span></p>
+
+  <div class="enemy">
+    <p id="enemy-name">???</p>
+    <p>HP: <span id="enemy-hp">?</span> / <span id="enemy-max-hp">?</span></p>
+  </div>
+
+  <p>攻撃力: <span id="attack-power">1</span></p>
+  <button id="upgrade-button">攻撃力アップ (<span id="upgrade-cost">10</span>G) </button>
+  <button id="reset-button" class="danger">リセット</button>
+
+  <script src="game.js"></script>
+</body>
+</html>
