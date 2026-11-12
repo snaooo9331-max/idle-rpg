@@ -1,3 +1,5 @@
+// @ts-check
+
 let stage = 1;
 let gold = 0;
 let enemyNames = ["スライム", "ゴブリン", "オオカミ", "オーク", "ドラゴン", "オーガ"];
@@ -9,14 +11,26 @@ let attackPower = 3;
 let upgradeCost = 10;
 let attackInterval = 1000;
 
+/**
+ * @param {string} id
+ * @param {string | number} value
+ */
+
+function setText(id, value) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.textContent = String(value);
+  }
+}
+
 function updateDisplay() {
-  document.getElementById("stage").textContent = stage;
-  document.getElementById("gold").textContent = gold;
-  document.getElementById("enemy-name").textContent = enemyName;
-  document.getElementById("enemy-hp").textContent = enemyHp;
-  document.getElementById("enemy-max-hp").textContent = enemyMaxHp;
-  document.getElementById("attack-power").textContent = attackPower;
-  document.getElementById("upgrade-cost").textContent = upgradeCost;
+  setText("stage", stage);
+  setText("gold", gold);
+  setText("enemy-name", enemyName);
+  setText("enemy-hp", enemyHp);
+  setText("enemy-max-hp", enemyMaxHp);
+  setText("attack-power", attackPower);
+  setText("upgrade-cost", upgradeCost);
 }
 
 function doAttack() {
@@ -57,7 +71,7 @@ function upgradeAttack() {
   }
 }
 
-document.getElementById("upgrade-button").addEventListener("click", upgradeAttack);
+document.getElementById("upgrade-button")?.addEventListener("click", upgradeAttack);
 
 function saveGame() {
   let saveData = {
@@ -102,7 +116,11 @@ function resetGame() {
   }
 }
 
-document.getElementById("reset-button").addEventListener("click", resetGame);
+document.getElementById("reset-button")?.addEventListener("click", resetGame);
+
+/**
+ * @param {number} lastSaveTime
+ */
 
 function giveOfflineReward(lastSaveTime) {
   let elapsed = Date.now() - lastSaveTime;
@@ -126,12 +144,14 @@ function giveOfflineReward(lastSaveTime) {
 
   let goldGained = gold - goldBefore;
   let stagesGained = stage - stageBefore;
+  
+  let offlineMessage = "おかえりなさい！放置中に" + goldGained + "G 獲得、" + stagesGained + "ステージ進みました。";
 
-  document.getElementById("offline-message").textContent = "おかえりなさい！放置中に" + goldGained + "G 獲得、" + stagesGained + "ステージ進みました。";
+  setText("offline-message", offlineMessage);
   
   setTimeout(removeMessage, 5000);
 }
 
 function removeMessage() {
-  document.getElementById("offline-message").textContent = "";
+  setText("offline-message", "");
 }
