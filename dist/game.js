@@ -26,12 +26,7 @@ function updateDisplay() {
     const hpBarFill = document.getElementById("hp-bar-fill");
     if (hpBarFill) {
         hpBarFill.style.width = hpPercent + "%";
-        if (hpPercent <= 30) {
-            hpBarFill.style.backgroundColor = "#e53935";
-        }
-        else {
-            hpBarFill.style.backgroundColor = "#4caf50";
-        }
+        hpBarFill.classList.toggle("low", hpPercent <= 30);
     }
 }
 function doAttack() {
@@ -40,8 +35,23 @@ function doAttack() {
         defeatEnemy();
     }
 }
+function showDamage(amount) {
+    const enemyArea = document.getElementById("enemy");
+    if (!enemyArea) {
+        return;
+    }
+    const damageText = document.createElement("span");
+    damageText.textContent = "-" + amount;
+    damageText.className = "damage";
+    damageText.style.left = (40 + Math.random() * 100) + "%";
+    enemyArea.appendChild(damageText);
+    damageText.addEventListener("animationend", () => {
+        damageText.remove();
+    });
+}
 function attack() {
     doAttack();
+    showDamage(attackPower);
     updateDisplay();
 }
 function defeatEnemy() {

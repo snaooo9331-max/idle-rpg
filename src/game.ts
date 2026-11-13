@@ -42,8 +42,26 @@ function doAttack() {
   }
 }
 
+function showDamage(amount: number) {
+  const enemyArea = document.getElementById("enemy");
+  if (!enemyArea) {
+    return;
+  }
+
+  const damageText = document.createElement("span");
+  damageText.textContent = "-" + amount;
+  damageText.className = "damage";
+  damageText.style.left = (40 + Math.random() * 100) + "%";
+  enemyArea.appendChild(damageText);
+
+  damageText.addEventListener("animationend", () => {
+    damageText.remove();
+  });
+}
+
 function attack() {
   doAttack();
+  showDamage(attackPower);
   updateDisplay();
 }
 
