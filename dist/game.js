@@ -22,6 +22,17 @@ function updateDisplay() {
     setText("enemy-max-hp", enemyMaxHp);
     setText("attack-power", attackPower);
     setText("upgrade-cost", upgradeCost);
+    const hpPercent = Math.max(0, (enemyHp / enemyMaxHp) * 100);
+    const hpBarFill = document.getElementById("hp-bar-fill");
+    if (hpBarFill) {
+        hpBarFill.style.width = hpPercent + "%";
+        if (hpPercent <= 30) {
+            hpBarFill.style.backgroundColor = "#e53935";
+        }
+        else {
+            hpBarFill.style.backgroundColor = "#4caf50";
+        }
+    }
 }
 function doAttack() {
     enemyHp = enemyHp - attackPower;
