@@ -29,11 +29,7 @@ function updateDisplay() {
   const hpBarFill = document.getElementById("hp-bar-fill");
   if (hpBarFill) {
     hpBarFill.style.width = hpPercent + "%";
-    if (hpPercent <= 30) {
-      hpBarFill.style.backgroundColor = "#e53935";
-    } else {
-      hpBarFill.style.backgroundColor = "#4caf50"
-    }
+    hpBarFill.classList.toggle("low", hpPercent <= 30);
   }
 
 }
@@ -145,11 +141,11 @@ function giveOfflineReward(lastSaveTime: number) {
 
   let goldGained = gold - goldBefore;
   let stagesGained = stage - stageBefore;
-  
+
   let offlineMessage = "おかえりなさい！放置中に" + goldGained + "G 獲得、" + stagesGained + "ステージ進みました。";
 
   setText("offline-message", offlineMessage);
-  
+
   setTimeout(removeMessage, 5000);
 }
 

@@ -45,3 +45,7 @@ button {
   background-color: #4caf50;
   transition: width 0.2s;
 }
+
+.hp-bar-fill.low {
+  background-color: #e53935;
+}
