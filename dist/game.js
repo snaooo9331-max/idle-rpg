@@ -8,6 +8,9 @@ let enemyMaxHp = 25;
 let attackPower = 3;
 let upgradeCost = 10;
 let attackInterval = 1000;
+let speedUpgradeCost = 50;
+let goldMultiplier = 1;
+let goldMultiplierUpgradeCost = 25;
 function setText(id, value) {
     const element = document.getElementById(id);
     if (element) {
@@ -22,6 +25,10 @@ function updateDisplay() {
     setText("enemy-max-hp", enemyMaxHp);
     setText("attack-power", attackPower);
     setText("upgrade-cost", upgradeCost);
+    setText("attack-speed", (1000 / attackInterval).toFixed(2));
+    setText("speed-cost", speedUpgradeCost);
+    setText("gold-multiplier", goldMultiplier.toFixed(1));
+    setText("gold-cost", goldMultiplierUpgradeCost);
     const hpPercent = Math.max(0, (enemyHp / enemyMaxHp) * 100);
     const hpBarFill = document.getElementById("hp-bar-fill");
     if (hpBarFill) {
@@ -55,16 +62,26 @@ function attack() {
     updateDisplay();
 }
 function defeatEnemy() {
-    gold = gold + stage * 5;
+    gold = gold + Math.floor(stage * 5 * goldMultiplier);
     stage = stage + 1;
     enemyMaxHp = Math.floor(enemyMaxHp * 1.2);
     enemyHp = enemyMaxHp;
     let index = Math.floor(Math.random() * enemyNames.length);
     enemyName = enemyNames[index];
 }
+function upgradeGoldMultiplier() {
+    if (gold < goldMultiplierUpgradeCost) {
+        return;
+    }
+    gold -= goldMultiplierUpgradeCost;
+    goldMultiplier = goldMultiplier + 0.2;
+    goldMultiplierUpgradeCost = Math.floor(goldMultiplierUpgradeCost * 2);
+    updateDisplay();
+}
+document.getElementById("gold-button")?.addEventListener("click", upgradeGoldMultiplier);
 loadGame();
 updateDisplay();
-setInterval(attack, attackInterval);
+let attackTimer = setInterval(attack, attackInterval);
 setInterval(saveGame, 5000);
 function upgradeAttack() {
     if (gold >= upgradeCost) {
@@ -74,6 +91,21 @@ function upgradeAttack() {
         updateDisplay();
     }
 }
+function upgradeSpeed() {
+    if (gold < speedUpgradeCost) {
+        return;
+    }
+    if (attackInterval <= 200) {
+        return;
+    }
+    gold -= speedUpgradeCost;
+    attackInterval = Math.floor(attackInterval * 0.9);
+    speedUpgradeCost = Math.floor(speedUpgradeCost * 2);
+    clearInterval(attackTimer);
+    attackTimer = setInterval(attack, attackInterval);
+    updateDisplay();
+}
+document.getElementById("speed-button")?.addEventListener("click", upgradeSpeed);
 document.getElementById("upgrade-button")?.addEventListener("click", upgradeAttack);
 function saveGame() {
     let saveData = {
@@ -84,7 +116,11 @@ function saveGame() {
         enemyMaxHp: enemyMaxHp,
         attackPower: attackPower,
         upgradeCost: upgradeCost,
-        lastSaveTime: Date.now()
+        lastSaveTime: Date.now(),
+        attackInterval: attackInterval,
+        speedUpgradeCost: speedUpgradeCost,
+        goldMultiplier: goldMultiplier,
+        goldMultiplierUpgradeCost: goldMultiplierUpgradeCost,
     };
     localStorage.setItem("idleRpgSave", JSON.stringify(saveData));
 }
@@ -101,6 +137,10 @@ function loadGame() {
     enemyMaxHp = saveData.enemyMaxHp;
     attackPower = saveData.attackPower;
     upgradeCost = saveData.upgradeCost;
+    attackInterval = saveData.attackInterval ?? 1000;
+    speedUpgradeCost = saveData.speedUpgradeCost ?? 50;
+    goldMultiplier = saveData.goldMultiplier ?? 1;
+    goldMultiplierUpgradeCost = saveData.goldMultiplierUpgradeCost ?? 25;
     if (saveData.lastSaveTime) {
         giveOfflineReward(saveData.lastSaveTime);
     }

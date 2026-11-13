@@ -22,6 +22,7 @@ button {
   background-color: #f5a623;
   color: #1e1e2e;
   cursor: pointer;
+  margin: 4px;
 }
 
 .danger {
