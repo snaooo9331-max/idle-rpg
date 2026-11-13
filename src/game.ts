@@ -1,8 +1,6 @@
-// @ts-check
-
 let stage = 1;
 let gold = 0;
-let enemyNames = ["スライム", "ゴブリン", "オオカミ", "オーク", "ドラゴン", "オーガ"];
+let enemyNames = ["スライム", "ゴブリン", "オオカミ", "オーク", "ドラゴン", "オーガ", "エルフ"];
 
 let enemyName = "ゴブリン";
 let enemyHp = 25;
@@ -11,12 +9,7 @@ let attackPower = 3;
 let upgradeCost = 10;
 let attackInterval = 1000;
 
-/**
- * @param {string} id
- * @param {string | number} value
- */
-
-function setText(id, value) {
+function setText(id: string, value: string | number) {
   const element = document.getElementById(id);
   if (element) {
     element.textContent = String(value);
@@ -50,7 +43,7 @@ function defeatEnemy() {
   gold = gold + stage * 5;
   stage = stage + 1;
 
-  enemyMaxHp = Math.floor(enemyMaxHp * 1.5);
+  enemyMaxHp = Math.floor(enemyMaxHp * 1.2);
   enemyHp = enemyMaxHp;
 
   let index = Math.floor(Math.random() * enemyNames.length);
@@ -118,11 +111,7 @@ function resetGame() {
 
 document.getElementById("reset-button")?.addEventListener("click", resetGame);
 
-/**
- * @param {number} lastSaveTime
- */
-
-function giveOfflineReward(lastSaveTime) {
+function giveOfflineReward(lastSaveTime: number) {
   let elapsed = Date.now() - lastSaveTime;
 
   if (elapsed < 60 * 1000) {
